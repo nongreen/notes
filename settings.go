@@ -6,6 +6,8 @@ import (
 	"github.com/go-sql-driver/mysql"
 )
 
+var SECRETKEY string = os.Getenv("SECRETKEY")
+
 var DBCONFIG mysql.Config = mysql.Config{
 	User:                 os.Getenv("DBUSER"),
 	Passwd:               os.Getenv("DBPASS"),

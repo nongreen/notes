@@ -10,7 +10,7 @@ import (
 
 var db *sql.DB
 
-func connect_to_db() {
+func connectToDB() *sql.DB {
 	db, errors := sql.Open("mysql", DBCONFIG.FormatDSN())
 	if errors != nil {
 		panic(errors)
@@ -21,4 +21,19 @@ func connect_to_db() {
 		log.Fatal(pingErr)
 	}
 	fmt.Println("Connected!")
+	return db
+}
+
+func addUser(user *User) (int64, error) {
+	result, err := db.Exec("INSERT INTO User (username, password, email) VALUES (?, ?, ?)", user.Username, user.Password, user.Email)
+	if err != nil {
+		return 0, fmt.Errorf("addUser: %v", err)
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, fmt.Errorf("addUser: %v", err)
+	}
+
+	return id, nil
 }
