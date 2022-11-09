@@ -1,4 +1,4 @@
-package main
+package notes
 
 import (
 	"github.com/gin-gonic/gin"

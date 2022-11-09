@@ -1,4 +1,4 @@
-package main
+package notes
 
 import (
 	"database/sql"

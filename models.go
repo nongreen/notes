@@ -1,4 +1,4 @@
-package main
+package notes
 
 type User struct {
 	ID       int64

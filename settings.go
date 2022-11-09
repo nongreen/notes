@@ -1,5 +1,5 @@
 /* change var to const */
-package main
+package notes
 
 import (
 	"os"
