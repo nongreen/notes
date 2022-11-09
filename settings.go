@@ -1,3 +1,4 @@
+/* change var to const */
 package main
 
 import (
@@ -16,3 +17,5 @@ var DBCONFIG mysql.Config = mysql.Config{
 	DBName:               "notes",
 	AllowNativePasswords: true,
 }
+
+var USERKEY = "user"
