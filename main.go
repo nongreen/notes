@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	db = connectToDB()
+	db, _ = connectToDB(&DBCONFIG)
 
 	router := gin.Default()
 	router.LoadHTMLGlob("html/*.html")

@@ -5,24 +5,24 @@ import (
 	"errors"
 	"fmt"
 
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/go-sql-driver/mysql"
 )
 
 var db *sql.DB
 
 // connectToDB abort app with panic if has errors
-func connectToDB() *sql.DB {
-	db, errors := sql.Open("mysql", DBCONFIG.FormatDSN())
-	if errors != nil {
-		panic(errors)
+func connectToDB(config *mysql.Config) (*sql.DB, error) {
+	db, err := sql.Open("mysql", config.FormatDSN())
+	if err != nil {
+		return nil, err
 	}
 
 	pingErr := db.Ping()
 	if pingErr != nil {
-		panic(errors)
+		return nil, pingErr
 	}
 
-	return db
+	return db, nil
 }
 
 // addUser adds user in db
