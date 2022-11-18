@@ -5,12 +5,10 @@ import (
 )
 
 func bindAllEndPoints(router *gin.Engine) {
-	bindAllGET(router)
-	router.POST("/register", postRegisterFormHandler)
-}
-
-func bindAllGET(router *gin.Engine) {
 	router.GET("/", getIndexHandler)
+
 	router.GET("/register", getRegisterFormHandler)
+	router.POST("/register", postRegisterFormHandler)
+
 	router.GET("/login", getLoginFormHandler)
 }
