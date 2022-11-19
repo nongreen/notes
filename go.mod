@@ -1,4 +1,4 @@
-module main
+module github.com/nongreen/notes
 
 go 1.19
 

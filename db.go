@@ -54,10 +54,27 @@ func userIsExist(user *User, db *sql.DB) (bool, error) {
 		return false, nil
 	}
 
-	result, err := db.Exec("Select id, username from User where id = ?", user.ID)
+	// Trying to get user from db
+	var username, password, email string
+	err := db.QueryRow("Select username, password, email from User where id = ?", user.ID).Scan(&username, &password, &email)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return false, nil
+		}
+
 		return false, err
 	}
-	fmt.Println(result)
+
+	// Check fields of user
+	if user.Username != username {
+		return false, nil
+	}
+	if user.Password != password {
+		return false, nil
+	}
+	if user.Email != email {
+		return false, nil
+	}
+
 	return true, nil
 }
