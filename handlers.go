@@ -20,7 +20,7 @@ func postRegisterFormHandler(context *gin.Context) {
 		return
 	}
 
-	if !(user.is_valid()) {
+	if userIsValid, err := user.isValid(); !userIsValid || err != nil {
 		context.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
