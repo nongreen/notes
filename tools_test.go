@@ -87,11 +87,6 @@ func TestStringIsEmail(t *testing.T) {
 	testExpectedResults(t, expectedResults, stringIsEmail)
 }
 
-type ExpectedResult struct {
-	testedStr      string
-	expectedResult bool
-}
-
 func testExpectedResults(t *testing.T, expectedResults []ExpectedResult, tested_func func(string) (bool, error)) {
 	for _, element := range expectedResults {
 		result, err := tested_func(element.testedStr)

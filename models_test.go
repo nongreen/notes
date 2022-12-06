@@ -7,14 +7,39 @@ import (
 )
 
 func TestUsernameIsValid(t *testing.T) {
-	usernames := ["username"]
 	user := User{}
-	usernameIsValid, err := user.usernameIsValid()
-	if err != nil {
-		t.Error(fmt.Errorf("UsernameIsValid"))
+	expectedResults := []ExpectedResult{
+		{
+			testedStr:      "username",
+			expectedResult: true,
+		},
+		{
+			testedStr:      "user name",
+			expectedResult: false,
+		},
+		{
+			testedStr:      "user\nanme",
+			expectedResult: false,
+		},
+		{
+			testedStr:      "username5",
+			expectedResult: true,
+		},
+		{
+			testedStr:      "",
+			expectedResult: false,
+		},
 	}
-	if !usernameIsValid {
-		log.Println("True string, isn't true")
-		t.Fail()
+
+	for _, expectedResult := range expectedResults {
+		user.Username = expectedResult.testedStr
+		usernameIsValid, err := user.usernameIsValid()
+		if err != nil {
+			log.Println(fmt.Errorf("usernameIsValid"))
+			t.Error(err)
+		}
+		if usernameIsValid != expectedResult.expectedResult {
+			t.Fail()
+		}
 	}
 }
