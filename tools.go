@@ -67,7 +67,7 @@ func stringIsEmail(str string) (bool, error) {
 
 	re, err := regexp.Compile(`[\w-]+\.[\w]+`)
 	if err != nil {
-		return false, err
+		return false, fmt.Errorf("string don't storage domain like gmail.com")
 	}
 	result := re.FindAll([]byte(splitByAt[1]), -1)
 	if len(result) != 1 {
