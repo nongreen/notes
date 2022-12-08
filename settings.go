@@ -18,4 +18,9 @@ var DBCONFIG mysql.Config = mysql.Config{
 	AllowNativePasswords: true,
 }
 
+// Validators settings
+const USERNAMELEN = 64
+const PASSLEN = 256
+const EMAIL = 256
+
 var USERKEY = "user"
