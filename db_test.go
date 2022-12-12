@@ -9,19 +9,17 @@ import (
 	"github.com/go-sql-driver/mysql"
 )
 
-var test_db *sql.DB
-
 func TestMain(m *testing.M) {
 	var err error
-	test_db, err = connectToTestDB(&DBCONFIG)
+	db, err = connectToTestDB(&DBCONFIG)
 	if err != nil {
 		log.Fatal("Cannot connect to test db")
 		os.Exit(1)
 	}
-	defer test_db.Close()
+	defer db.Close()
 
 	code := m.Run()
-	clearDB(*test_db)
+	clearDB(*db)
 	os.Exit(code)
 }
 
@@ -55,12 +53,12 @@ func TestAddUser(t *testing.T) {
 		Password: "password12",
 		Email:    "testmail@test.org",
 	}
-	test_user.ID, err = addUser(&test_user, test_db)
+	test_user.ID, err = addUser(&test_user, db)
 	if err != nil {
 		t.Error(err)
 	}
 
-	isExist, err := userIsExist(&test_user, test_db)
+	isExist, err := userIsExist(&test_user, db)
 	if err != nil {
 		t.Error(err)
 	}
@@ -79,38 +77,38 @@ func TestUserIsExist(t *testing.T) {
 	}
 
 	// Check wrong case
-	subtestUserExist(t, &test_user, test_db, false)
+	subtestUserExist(t, &test_user, db, false)
 
 	// Check true case
-	test_user.ID, err = addUser(&test_user, test_db)
+	test_user.ID, err = addUser(&test_user, db)
 	if err != nil {
 		t.Error(err)
 	}
-	subtestUserExist(t, &test_user, test_db, true)
+	subtestUserExist(t, &test_user, db, true)
 
 	// Check valid id, but invalid username
 	validUsername := test_user.Username
 	test_user.Username = "another username"
-	subtestUserExist(t, &test_user, test_db, false)
+	subtestUserExist(t, &test_user, db, false)
 	test_user.Username = validUsername
 
 	// Check valid id, but invalid password
 	validPassword := test_user.Password
 	test_user.Password = "another password"
-	subtestUserExist(t, &test_user, test_db, false)
+	subtestUserExist(t, &test_user, db, false)
 	test_user.Password = validPassword
 
 	// Check valid id, but invalid email
 	validEmail := test_user.Email
 	test_user.Email = "another email"
-	subtestUserExist(t, &test_user, test_db, false)
+	subtestUserExist(t, &test_user, db, false)
 	test_user.Email = validEmail
 }
 
 func subtestUserExist(t *testing.T, test_user *User, db *sql.DB, expected bool) {
 	var isExist bool
 	var err error
-	isExist, err = userIsExist(test_user, test_db)
+	isExist, err = userIsExist(test_user, db)
 	if err != nil {
 		t.Error(err)
 	}

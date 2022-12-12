@@ -9,6 +9,8 @@ import (
 
 var SECRETKEY string = os.Getenv("SECRETKEY")
 
+var GIN_MODE = os.Getenv("GIN_MDOE")
+
 var DBCONFIG mysql.Config = mysql.Config{
 	User:                 os.Getenv("DBUSER"),
 	Passwd:               os.Getenv("DBPASS"),
@@ -17,6 +19,10 @@ var DBCONFIG mysql.Config = mysql.Config{
 	DBName:               "notes",
 	AllowNativePasswords: true,
 }
+
+// Server settings
+const DOMAIN string = "localhost"
+const PORT string = "8080"
 
 // Validators settings
 const USERNAMELEN = 64

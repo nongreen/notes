@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,15 +21,28 @@ func getRegisterFormHandler(context *gin.Context) {
 func postRegisterFormHandler(context *gin.Context) {
 	user := &User{}
 	if err := context.Bind(user); err != nil {
+		if GIN_MODE == "debug" {
+			log.Println("Error bind")
+			log.Fatal(err)
+		}
 		return
 	}
-
-	if userIsValid, err := user.isValid(); !userIsValid || err != nil {
+	userIsValid, err := user.isValid()
+	if err != nil {
+		if GIN_MODE == "debug" {
+			log.Println("Error userIsValid")
+			log.Fatal(err)
+		}
+	}
+	if !userIsValid {
+		if GIN_MODE == "debug" {
+			log.Println("User is valid")
+		}
 		context.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	err := user.save()
+	err = user.save()
 	if err != nil {
 		context.AbortWithStatus(http.StatusBadRequest)
 		return
