@@ -9,7 +9,7 @@ import (
 
 var SECRETKEY string = os.Getenv("SECRETKEY")
 
-var GIN_MODE = os.Getenv("GIN_MDOE")
+var GIN_MODE = os.Getenv("GIN_MODE")
 
 var DBCONFIG mysql.Config = mysql.Config{
 	User:                 os.Getenv("DBUSER"),
