@@ -51,7 +51,8 @@ func TestEndPoints(t *testing.T) {
 // testGetEndPoint checks testingEndPoint on response with error status code by GET request
 func testGetEndPoint(testingEndPoint string, t *testing.T) {
 	baseUrl := fmt.Sprintf("http://%s:%s", DOMAIN, PORT)
-	log.Println(baseUrl)
+	log.Println("testing url:" + baseUrl + testingEndPoint)
+
 	resp, err := http.Get(baseUrl + testingEndPoint)
 	if err != nil {
 		log.Fatal(err)
