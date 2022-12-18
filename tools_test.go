@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"regexp"
 	"testing"
 )
 
@@ -97,5 +98,34 @@ func testExpectedResults(t *testing.T, expectedResults []ExpectedResult, tested_
 			log.Println("tested string:", element.testedStr)
 			t.Fail()
 		}
+	}
+}
+
+func TestGenerateCode(t *testing.T) {
+	code := generateCode()
+	log.Println("Code: " + code)
+	if len(code) != VERIFICATION_CODE_LEN {
+		log.Println("Len of code isn't equal VERIFICATION_CODE_LEN")
+		t.Fail()
+	}
+
+	re, err := regexp.Compile(`\D+`)
+	if err != nil {
+		t.Error(err)
+	}
+	if regexpResult := re.FindAll([]byte(code), -1); len(regexpResult) != 0 {
+		log.Println("Code holds non digit symbols")
+		t.Fail()
+	}
+
+	lastDigitInCode := code[0]
+	var i int
+	for i = 1; i < VERIFICATION_CODE_LEN; i += 1 {
+		if code[i] != lastDigitInCode {
+			break
+		}
+	}
+	if i == VERIFICATION_CODE_LEN-1 && code[i] == lastDigitInCode {
+		t.Fail()
 	}
 }

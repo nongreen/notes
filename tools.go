@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"regexp"
+	"time"
 )
 
 // nonwordSymbolsInString returns true, if string storages nonword symbols
@@ -78,4 +80,14 @@ func stringIsEmail(str string) (bool, error) {
 	}
 
 	return true, nil
+}
+
+func generateCode() string {
+	result := ""
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < VERIFICATION_CODE_LEN; i += 1 {
+		random_number := rand.Intn(10)
+		result += fmt.Sprint(random_number)
+	}
+	return result
 }
