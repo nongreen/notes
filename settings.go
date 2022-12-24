@@ -1,7 +1,9 @@
-/* change var to const */
+// settings.go contains all Global variables for program
+
 package main
 
 import (
+	"database/sql"
 	"os"
 
 	"github.com/go-sql-driver/mysql"
@@ -10,6 +12,9 @@ import (
 var SECRETKEY string = os.Getenv("SECRETKEY")
 
 var GIN_MODE = os.Getenv("GIN_MODE")
+
+// DataBase config
+var db *sql.DB
 
 var DBCONFIG mysql.Config = mysql.Config{
 	User:                 os.Getenv("DBUSER"),

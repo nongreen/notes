@@ -1,3 +1,5 @@
+// tools.go contains some useful simple functions for other functions
+
 package main
 
 import (

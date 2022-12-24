@@ -1,3 +1,5 @@
+// models.go contains models for work with database and some method of it
+
 package main
 
 import "fmt"

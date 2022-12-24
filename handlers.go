@@ -1,3 +1,5 @@
+// handlers.go contains handlers for all routers
+
 package main
 
 import (

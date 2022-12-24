@@ -1,3 +1,5 @@
+// urls.go uses for registration routers
+
 package main
 
 import (

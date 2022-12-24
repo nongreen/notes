@@ -1,3 +1,5 @@
+// db.go contains all functions for work with database
+
 package main
 
 import (
@@ -7,8 +9,6 @@ import (
 
 	"github.com/go-sql-driver/mysql"
 )
-
-var db *sql.DB
 
 // connectToDB abort app with panic if has errors
 func connectToDB(config *mysql.Config) (*sql.DB, error) {

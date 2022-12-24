@@ -1,3 +1,5 @@
+// auth.go conatins funcitons for auth of users
+
 package main
 
 import (

@@ -1,3 +1,5 @@
+// mail.go contains fucntions for sending of mail
+
 package main
 
 import (
