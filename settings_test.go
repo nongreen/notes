@@ -50,4 +50,20 @@ func TestAll(t *testing.T) {
 		log.Println("DBCONFIG.DBName is empty")
 		t.Fail()
 	}
+	if SMTP_ACCOUNT == "" {
+		log.Println("SMTP_ACCOUNT is empty")
+		t.Fail()
+	}
+	if SMTP_PASSWORD == "" {
+		log.Println("SMTP_PASSWORD is empty")
+		t.Fail()
+	}
+	if SMTP_HOST == "" {
+		log.Println("SMTP_HOST is empty")
+		t.Fail()
+	}
+	if SMTP_PORT == "" {
+		log.Println("SMTP_PORT is empty")
+		t.Fail()
+	}
 }
