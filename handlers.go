@@ -3,7 +3,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,37 +20,7 @@ func getRegisterFormHandler(context *gin.Context) {
 
 // Trying save uesr from form
 func postRegisterFormHandler(context *gin.Context) {
-	user := &User{}
-	if err := context.Bind(user); err != nil {
-		if GIN_MODE == "debug" {
-			log.Println("Error bind")
-			log.Fatal(err)
-		}
-		return
-	}
-	userIsValid, err := user.isValid()
-	if err != nil {
-		if GIN_MODE == "debug" {
-			log.Println("Error userIsValid")
-			log.Fatal(err)
-		}
-	}
-	if !userIsValid {
-		if GIN_MODE == "debug" {
-			log.Println("User is valid")
-		}
-		context.AbortWithStatus(http.StatusBadRequest)
-		return
-	}
-
-	err = user.save()
-	if err != nil {
-		context.AbortWithStatus(http.StatusBadRequest)
-		return
-	}
-
-	/* todo: redirect to page with message */
-	context.Redirect(http.StatusFound, "/")
+	handleMailVerification(context)
 }
 
 // Responses login_form.html

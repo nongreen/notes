@@ -3,8 +3,13 @@
 package main
 
 import (
+	"encoding/hex"
 	"fmt"
+	"log"
+	"net/http"
 	"regexp"
+
+	"github.com/gin-gonic/gin"
 )
 
 // nonwordSymbolsInString returns true, if string storages nonword symbols
@@ -80,4 +85,65 @@ func stringIsEmail(str string) (bool, error) {
 	}
 
 	return true, nil
+}
+
+// todo: Add security
+func generateEmailVerificationLink(user *User) string {
+	var result string
+	if GIN_MODE == "debug" {
+		result = "https://" + DOMAIN + ":" + "/email_verification?email="
+	} else {
+		result = "https://" + DOMAIN + "/email_verification?email="
+	}
+	result += hex.EncodeToString([]byte(user.Email))
+
+	return result
+}
+
+// Handlers
+
+// handleMailVerification gets uesr from context, checks it on valid and saves it. If have error
+// returns bad request
+func handleMailVerification(context *gin.Context) {
+	user := &User{}
+	if err := context.Bind(user); err != nil {
+		if GIN_MODE == "debug" {
+			log.Println("Error bind")
+			log.Fatal(err)
+		}
+		return
+	}
+
+	userIsValid, err := user.isValid()
+	if err != nil {
+		if GIN_MODE == "debug" {
+			log.Println("Error userIsValid")
+			log.Fatal(err)
+		}
+		return
+	}
+	if !userIsValid {
+		if GIN_MODE == "debug" {
+			log.Println("User isn't valid")
+		}
+		context.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	err = sendMail(user.Email, "Activation mail", "Your link: ")
+	if err != nil {
+		if GIN_MODE == "debug" {
+			log.Println("Error by sending email")
+		}
+		context.AbortWithStatus(http.StatusBadRequest)
+	}
+
+	err = user.save()
+	if err != nil {
+		context.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	/* todo: redirect to page with message */
+	context.Redirect(http.StatusFound, "/")
 }
